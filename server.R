@@ -123,17 +123,27 @@ shinyServer(function(input, output) {
            xlab=label(mpgdata[input$xvariable]),
            ylab=label(mpgdata[input$yvariable]),
            xlim=c(min(na.omit(mpgdata[input$xvariable])),
-                 max(na.omit(mpgdata[input$xvariable]))),
+                  max(na.omit(mpgdata[input$xvariable]))),
            ylim=c(min(na.omit(mpgdata[input$yvariable])),
-                 max(na.omit(mpgdata[input$yvariable]))),
+                  max(na.omit(mpgdata[input$yvariable]))),
            pch=19
-           )
+      )
     }
-
-    # Barplot
+    
+    # Barplot - simple
+    if(input$chart_type == "barplot-simple") {
+#       counts <- table(input$xvariable)
+#       barplot(counts, main=formulaText(), 
+#               xlab=label(mpgdata[input$xvariable]))
+        barplot(table(mpgdata[input$xvariable]),
+                xlab=label(mpgdata[input$xvariable]),
+                ylab="Count")
+    }
+    
+    # Barplot - grouped
     # Currently producing a solid blue box??
-    if(input$chart_type == "barplot") {
-      counts <- table(input$xvariable, input$yvariable)
+    if(input$chart_type == "barplot-grouped") {
+      counts <- table(mpgdata[input$xvariable], mpgdata[input$yvariable])
       barplot(counts, main=formulaText(),
               xlab=label(mpgdata[input$xvariable]), 
               col=c("darkblue","red"),
@@ -147,11 +157,10 @@ shinyServer(function(input, output) {
     
     # Line plot
     if(input$chart_type == "line") {
-      boxplot(as.formula(formulaText()), 
-              data = mpgdata,
-              outline = input$outliers,
-              xlab=label(mpgdata[input$xvariable]),
-              ylab=label(mpgdata[input$yvariable]))
+           par(pch=22, col="blue") # plotting symbol and color 
+           opts = c("p","l","o","b","c","s","S","h") 
+           plot(range(input$xvariable), range(input$yvariable), main=output$caption) 
+           lines(input$xvariable, input$yvariable, type="l") 
     }
     
     })

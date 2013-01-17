@@ -75,7 +75,8 @@ shinyUI(pageWithSidebar(
                 label = "Chart type",
                 choices = c("Boxplot" = "boxplot",
                             "Scatterplot" = "scatter",
-                            "Bar plot" = "barplot",
+                            "Bar plot - Simple" = "barplot-simple",
+                            "Bar plot - Grouped" = "barplot-grouped",
                             "Line" = "line")
     ),
     
