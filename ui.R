@@ -77,7 +77,8 @@ shinyUI(pageWithSidebar(
                             "Scatterplot" = "scatter",
                             "Bar plot - Simple" = "barplot-simple",
                             "Bar plot - Grouped" = "barplot-grouped",
-                            "Line" = "line")
+                            "Line" = "line",
+                            "Scatterplot - ggplot" = "scatter-gg")
     ),
     
     checkboxInput("outliers", "Show outliers", FALSE)

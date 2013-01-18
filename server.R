@@ -3,6 +3,7 @@ require(shiny)
 require(datasets)
 require(foreign)
 require(Hmisc)
+require(ggplot2)
 
 # We tweak the "a1" field to have nicer factor labels. Since this doesn't
 # rely on any user inputs we can do this once at startup and then use the
@@ -119,13 +120,18 @@ shinyServer(function(input, output) {
     # Scatterplot
     # Need to figure out how to remove NAs introduced by coercion
     if(input$chart_type == "scatter") {
-      plot(as.numeric(input$xvariable), as.numeric(input$yvariable), main=output$caption, 
+      xy <- cbind(mpgdata[input$xvariable],mpgdata[input$yvariable])
+#       plot(as.numeric(input$xvariable), as.numeric(input$yvariable), main=output$caption, 
+#            xlab=label(mpgdata[input$xvariable]),
+#            ylab=label(mpgdata[input$yvariable]),
+#            xlim=c(min(na.omit(mpgdata[input$xvariable])),
+#                   max(na.omit(mpgdata[input$xvariable]))),
+#            ylim=c(min(na.omit(mpgdata[input$yvariable])),
+#                   max(na.omit(mpgdata[input$yvariable]))),
+#            pch=19           
+      plot(as.numeric(xy[,1]),as.numeric(xy[,2]), main=output$caption, 
            xlab=label(mpgdata[input$xvariable]),
            ylab=label(mpgdata[input$yvariable]),
-           xlim=c(min(na.omit(mpgdata[input$xvariable])),
-                  max(na.omit(mpgdata[input$xvariable]))),
-           ylim=c(min(na.omit(mpgdata[input$yvariable])),
-                  max(na.omit(mpgdata[input$yvariable]))),
            pch=19
       )
     }
@@ -135,7 +141,9 @@ shinyServer(function(input, output) {
 #       counts <- table(input$xvariable)
 #       barplot(counts, main=formulaText(), 
 #               xlab=label(mpgdata[input$xvariable]))
-        barplot(table(mpgdata[input$xvariable]),
+      summary(mpgdata$a1)
+      barplot(table(mpgdata[input$xvariable]),
+                main=summary(mpgdata$a1),
                 xlab=label(mpgdata[input$xvariable]),
                 ylab="Count")
     }
@@ -162,6 +170,22 @@ shinyServer(function(input, output) {
            plot(range(input$xvariable), range(input$yvariable), main=output$caption) 
            lines(input$xvariable, input$yvariable, type="l") 
     }
-    
-    })
+      
+    # Scatterplot - ggplot
+    if(input$chart_type == "scatter-gg") {
+      xy <- cbind(mpgdata[input$xvariable],mpgdata[input$yvariable])
+      p <- qplot(xy[,1], 
+                 xy[,2], 
+                 data=xy,
+                 na.rm=TRUE
+                )
+      p <- p + labs(title = paste(formulaText(),
+                   "Spearman Correlation: ",
+                    cor(as.numeric(xy[,1]), as.numeric(xy[,2]), method = "spearman", use="complete")))
+      p <- p + labs(x = label(mpgdata[input$xvariable]))
+      p <- p + labs(y = label(mpgdata[input$yvariable]))
+      p <- p + geom_point(position=position_jitter(width=.2,height=.2))
+      print(p)
+    }
+  })
 })
