@@ -187,8 +187,6 @@ shinyServer(function(input, output) {
                    "Spearman Correlation: ",
                     cor(as.numeric(xy[,1]), as.numeric(xy[,2]), 
                         method = "spearman", use="complete")))
-                    round(cor(as.numeric(xy[,1]), as.numeric(xy[,2]), 
-                        method = "spearman", use="complete"),digits=3)))
       p <- p + labs(x = label(mpgdata[input$xvariable]))
       p <- p + labs(y = label(mpgdata[input$yvariable]))
       # Jitter points around origin
