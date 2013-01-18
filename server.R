@@ -151,7 +151,8 @@ shinyServer(function(input, output) {
     # Barplot - grouped
     # Currently producing a solid blue box??
     if(input$chart_type == "barplot-grouped") {
-      counts <- table(mpgdata[input$xvariable], mpgdata[input$yvariable])
+      xy <- cbind(mpgdata[input$xvariable],mpgdata[input$yvariable])
+      counts <- table(xy[,1], xy[,2])
       barplot(counts, main=formulaText(),
               xlab=label(mpgdata[input$xvariable]), 
               col=c("darkblue","red"),
@@ -173,17 +174,22 @@ shinyServer(function(input, output) {
       
     # Scatterplot - ggplot
     if(input$chart_type == "scatter-gg") {
+      # Push selected variables to the xy dataframe
+      # ggplot doesnt seem to want to use mpgdata directly
       xy <- cbind(mpgdata[input$xvariable],mpgdata[input$yvariable])
       p <- qplot(xy[,1], 
                  xy[,2], 
                  data=xy,
                  na.rm=TRUE
                 )
+      # Add labels
       p <- p + labs(title = paste(formulaText(),
                    "Spearman Correlation: ",
-                    cor(as.numeric(xy[,1]), as.numeric(xy[,2]), method = "spearman", use="complete")))
+                    cor(as.numeric(xy[,1]), as.numeric(xy[,2]), 
+                        method = "spearman", use="complete")))
       p <- p + labs(x = label(mpgdata[input$xvariable]))
       p <- p + labs(y = label(mpgdata[input$yvariable]))
+      # Jitter points around origin
       p <- p + geom_point(position=position_jitter(width=.2,height=.2))
       print(p)
     }

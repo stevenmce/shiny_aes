@@ -37,8 +37,8 @@ shinyUI(pageWithSidebar(
                      "H14. Live rural or urban" = "h14",
                      "State mapping variable" = "statemap",
                      "AEC_2010 Commonwealth Electoral Division mapping variable" = "elecdiv",
-                     "ALP Two-Party Preferred Vote - 2 party preferred (vs LNP)" = "alp_2pp",
-                     "LNP Two-Party Preferred Vote - 2 party preferred (vs ALP)" = "lnp_2pp",
+                     "ALP Two-Party Preferred Vote - 2 party preferred (vs LNP)" = "alp.2pp",
+                     "LNP Two-Party Preferred Vote - 2 party preferred (vs ALP)" = "lnp.2pp",
                      "Turnout percentage - turnout as a percentage of enrolled voters" = "turnoutp"
                      )),
     
@@ -66,8 +66,8 @@ shinyUI(pageWithSidebar(
                      "H14. Live rural or urban" = "h14",
                      "State mapping variable" = "statemap",
                      "AEC_2010 Commonwealth Electoral Division mapping variable" = "elecdiv",
-                     "ALP Two-Party Preferred Vote - 2 party preferred (vs LNP)" = "alp_2pp",
-                     "LNP Two-Party Preferred Vote - 2 party preferred (vs ALP)" = "lnp_2pp",
+                     "ALP Two-Party Preferred Vote - 2 party preferred (vs LNP)" = "alp.2pp",
+                     "LNP Two-Party Preferred Vote - 2 party preferred (vs ALP)" = "lnp.2pp",
                      "Turnout percentage - turnout as a percentage of enrolled voters" = "turnoutp"
                      )),
     
