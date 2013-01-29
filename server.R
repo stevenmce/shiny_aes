@@ -5,6 +5,9 @@ require(foreign)
 require(Hmisc)
 require(ggplot2)
 
+# Set options for number of digits in numeric output
+options(digits=3)
+
 # We tweak the "a1" field to have nicer factor labels. Since this doesn't
 # rely on any user inputs we can do this once at startup and then use the
 # value throughout the lifetime of the application
@@ -166,10 +169,15 @@ shinyServer(function(input, output) {
     
     # Line plot
     if(input$chart_type == "line") {
+           xy <- cbind(mpgdata[input$xvariable],mpgdata[input$yvariable])
            par(pch=22, col="blue") # plotting symbol and color 
            opts = c("p","l","o","b","c","s","S","h") 
-           plot(range(input$xvariable), range(input$yvariable), main=output$caption) 
-           lines(input$xvariable, input$yvariable, type="l") 
+#           plot(range(input$xvariable), range(input$yvariable), main=output$caption) 
+#           lines(input$xvariable, input$yvariable, type="l") 
+           plot(range(as.numeric(xy[,1])), range(as.numeric(xy[,2])), main=output$caption, 
+                xlab=label(mpgdata[input$xvariable]),
+                ylab=label(mpgdata[input$yvariable])) 
+           lines(as.numeric(xy[,1]), as.numeric(xy[,2]), type="l")
     }
       
     # Scatterplot - ggplot
